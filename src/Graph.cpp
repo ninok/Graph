@@ -61,34 +61,34 @@ Node* Graph::BFS(const Node &rStart, int iValue) const
 
     aPending.push_front(const_cast<Node*>(&rStart));
 
-    return BFS(aPending, iValue, aVisited);
+//    return BFS(aPending, iValue, aVisited);
 }
 
-Node* Graph::(tNodeSet& rPendingNodes, tNodeSet& rVisited, int iValue) const
-{
-    BOOST_FOREACH(Node* pNode, rNodes)
-    {
-        std::cout << "Node: " << pNode->m_iValue << std::endl;
-        if (pNode && pNode->m_iValue != iValue)
-        {
-            tVisited::const_iterator itNode = rVisited.find(pNode);
-
-            if (itNode == rVisited.end() || itNode->second==false)
-            {
-                rVisited[pNode] = true;
-
-                BOOST_FOREACH(Node* pNextNode, pNode->m_aNeighbors)
-                {
-                    rNodes.push_back(pNextNode);
-                }
-                return BFS(rNodes, iValue, rVisited);
-            }
-        }
-        else
-        {
-            return pNode;
-        }
-    }
-
-    return NULL;
-}
+//Node* Graph::(tNodeSet& rPendingNodes, tNodeSet& rVisited, int iValue) const
+//{
+//    BOOST_FOREACH(Node* pNode, rNodes)
+//    {
+//        std::cout << "Node: " << pNode->m_iValue << std::endl;
+//        if (pNode && pNode->m_iValue != iValue)
+//        {
+//            tVisited::const_iterator itNode = rVisited.find(pNode);
+//
+//            if (itNode == rVisited.end() || itNode->second==false)
+//            {
+//                rVisited[pNode] = true;
+//
+//                BOOST_FOREACH(Node* pNextNode, pNode->m_aNeighbors)
+//                {
+//                    rNodes.push_back(pNextNode);
+//                }
+//                return BFS(rNodes, iValue, rVisited);
+//            }
+//        }
+//        else
+//        {
+//            return pNode;
+//        }
+//    }
+//
+//    return NULL;
+//}

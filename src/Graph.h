@@ -36,7 +36,7 @@ public:
 private:
 
     typedef std::vector<Node*> tNodes;
-    typedef std::set<Node*> tNodeSet
+    typedef std::set<Node*> tNodeSet;
     typedef std::list<Node*> tNodeList;
 
     tNodes      m_aNodes;
