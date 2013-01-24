@@ -23,6 +23,12 @@ class Graph
 {
 
 public:
+    
+    enum tSearchMethod
+    {
+        BFS,
+        DFS
+    };
 
     Graph(bool bDirected);
     ~Graph();
@@ -30,10 +36,12 @@ public:
     Node& addNode(int iValue);
     void addEdge(Node& rNodeA, Node& rNodeB);
 
-    Node* BFS(const Node& rStart, int iValue) const;
-    Node* DFS(const Node& rStart, int iValue) const;
+    template<tSearchMethod SEARCHMETHOD>
+    Node* search(const Node& rStart, int iValue) const;
 
+    
 private:
+    
 
     typedef std::vector<Node*> tNodes;
     typedef std::set<Node*> tNodeSet;
@@ -44,10 +52,8 @@ private:
 
     Graph& operator=(const Graph&) {return *this;}
 
-
-    Node* BFS(tNodeSet& rPendingNodes, tNodeSet& rVisited, int iValue) const;
-    //Node* DFS(tNodeSet& rPendingNodes, int iValue, tVisited& rVisited) const;
-
+    template<tSearchMethod SEARCHMETHOD>
+    Node* search(tNodeList& rNodeList, tNodeSet& rVisited, int iValue) const;
 
 };
 

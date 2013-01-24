@@ -53,42 +53,55 @@ void Graph::addEdge(Node& rNodeA, Node& rNodeB)
     rNodeA.addEdge(rNodeB, m_bDirected);
 }
 
-
-Node* Graph::BFS(const Node &rStart, int iValue) const
+template <Graph::tSearchMethod SEARCHMETHOD>
+Node* Graph::search(const Node &rStart, int iValue) const
 {
-    tNodeList aPending;
+    tNodeList aNodeList;
     tNodeSet aVisited;
 
-    aPending.push_front(const_cast<Node*>(&rStart));
+    aNodeList.push_front(const_cast<Node*>(&rStart));
 
-//    return BFS(aPending, iValue, aVisited);
+    return search<SEARCHMETHOD>(aNodeList, aVisited, iValue);
 }
 
-//Node* Graph::(tNodeSet& rPendingNodes, tNodeSet& rVisited, int iValue) const
-//{
-//    BOOST_FOREACH(Node* pNode, rNodes)
-//    {
-//        std::cout << "Node: " << pNode->m_iValue << std::endl;
-//        if (pNode && pNode->m_iValue != iValue)
-//        {
-//            tVisited::const_iterator itNode = rVisited.find(pNode);
-//
-//            if (itNode == rVisited.end() || itNode->second==false)
-//            {
-//                rVisited[pNode] = true;
-//
-//                BOOST_FOREACH(Node* pNextNode, pNode->m_aNeighbors)
-//                {
-//                    rNodes.push_back(pNextNode);
-//                }
-//                return BFS(rNodes, iValue, rVisited);
-//            }
-//        }
-//        else
-//        {
-//            return pNode;
-//        }
-//    }
-//
-//    return NULL;
-//}
+template <Graph::tSearchMethod SEARCHMETHOD>
+Node* Graph::search(tNodeList& rNodeList, tNodeSet& rVisited, int iValue) const
+{
+    while (!rNodeList.empty())
+    {
+        Node* pNode = SEARCHMETHOD == BFS ? rNodeList.front() : rNodeList.back();
+        if (SEARCHMETHOD == BFS)
+            rNodeList.pop_front();
+        else if (SEARCHMETHOD == DFS)
+            rNodeList.pop_back();
+        
+        
+        if (pNode && rVisited.find(pNode) == rVisited.end())
+        {
+            std::cout << pNode->m_iValue << ", ";
+            if (pNode->m_iValue == iValue)
+            {
+                return pNode;
+            }
+            rVisited.insert(pNode);
+            
+            BOOST_FOREACH(Node* pNextNode, pNode->m_aNeighbors)
+            {
+                if (pNextNode && rVisited.find(pNextNode) == rVisited.end())
+                {
+                    rNodeList.push_back(pNextNode);
+                }
+            }
+        }
+    }
+
+    return NULL;
+}
+
+
+template Node* Graph::search<Graph::BFS>(const Node &rStart, int iValue) const;
+template Node* Graph::search<Graph::BFS>(tNodeList& rNodeList, tNodeSet& rVisited, int iValue) const;
+
+template Node* Graph::search<Graph::DFS>(const Node &rStart, int iValue) const;
+template Node* Graph::search<Graph::DFS>(tNodeList& rNodeList, tNodeSet& rVisited, int iValue) const;
+

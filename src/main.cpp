@@ -34,13 +34,14 @@ int main (int, char*[])
 
     aGraph.addEdge(rNode6, rNode4);
 
+    std::cout << "Breadth first search: ";
+    aGraph.search<Graph::BFS>(rNode1, 54);
+    std::cout << std::endl;
 
-    Node* pBFSNode = aGraph.BFS(rNode1, 4);
+    std::cout << "Depth first search: ";
+    aGraph.search<Graph::DFS>(rNode1, 54);
+    std::cout << std::endl;
 
-    if (pBFSNode)
-    {
-        std::cout << "Found Node" << std::endl;
-    }
 
     return 0;
 }
