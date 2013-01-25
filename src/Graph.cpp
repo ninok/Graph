@@ -27,7 +27,6 @@ void Node::addEdge(Node& rOtherNode, bool bDirected)
     }
 }
 
-
 Graph::Graph(bool bDirected)
 : m_bDirected(bDirected)
 {
@@ -96,6 +95,40 @@ Node* Graph::search(tNodeList& rNodeList, tNodeSet& rVisited, int iValue) const
     }
 
     return NULL;
+}
+
+std::ostream& operator<<(std::ostream& rStream, const Graph& rGraph)
+{
+    const std::string aEdgeStr = rGraph.m_bDirected ? "->" : "--";
+    
+    rStream << (rGraph.m_bDirected ? "digraph" : "graph") << std::endl;
+    
+    rStream << "{" << std::endl;
+    
+    rStream << "\t";
+    BOOST_FOREACH(Node* pNode, rGraph.m_aNodes)
+    {
+        if (pNode)
+        {
+            rStream << pNode->m_iValue << " ";
+        }
+    }
+    rStream << std::endl;
+    
+    BOOST_FOREACH(Node* pNode, rGraph.m_aNodes)
+    {
+        if (pNode)
+        {
+            BOOST_FOREACH(Node* pAdjacentNode, pNode->m_aNeighbors)
+            {
+                rStream << "\t" << pNode->m_iValue << aEdgeStr << pAdjacentNode->m_iValue << std::endl;
+            }
+        }
+    }
+    
+    rStream << "}" << std::endl;
+    
+    return rStream;
 }
 
 

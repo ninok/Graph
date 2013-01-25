@@ -4,7 +4,7 @@
 
 int main (int, char*[])
 {
-    Graph aGraph(false);
+    Graph aGraph(true);
 
     Node& rNode1 = aGraph.addNode(1);
     Node& rNode2 = aGraph.addNode(2);
@@ -43,5 +43,12 @@ int main (int, char*[])
     std::cout << std::endl;
 
 
+    std::ofstream aStream("graph.dot");
+    if (aStream.good())
+    {
+        aStream << aGraph;
+    }
+    aStream.close();
+    
     return 0;
 }

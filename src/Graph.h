@@ -39,6 +39,7 @@ public:
     template<tSearchMethod SEARCHMETHOD>
     Node* search(const Node& rStart, int iValue) const;
 
+    friend std::ostream& operator<< (std::ostream& stream, const Graph& rGraph);
     
 private:
     
@@ -57,3 +58,5 @@ private:
 
 };
 
+
+std::ostream& operator<< (std::ostream& stream, const Graph& rGraph);
